@@ -1,0 +1,12 @@
+#!/bin/bash
+
+NEW_REDIS_VERSION=$(chpst -u vcap:vcap redis-server --version | sed -e 's/.* v=\([^ ]*\).*/\1/')
+NEW_FULL_VERSION=$(chpst -u vcap:vcapredis-server --version)
+
+PREVIOUS_REDIS_VERSION=$(cat /var/vcap/store/standalone/REDIS_VERSION)
+PREVIOUS_FULL_VERSION=$(cat /var/vcap/store/standalone/REDIS_VERSION_FULL)
+
+echo "$(date) Migration from ${PREVIOUS_REDIS_VERSION} to ${NEW_REDIS_VERSION}" > /var/vcap/store/standalone/REDIS_MIGRATIONS.log
+chown vcap:vcap /var/vcap/store/standalone/REDIS_MIGRATIONS.log
+
+exit 0

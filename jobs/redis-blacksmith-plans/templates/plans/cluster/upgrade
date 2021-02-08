@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Redis has an implicit builtin upgrade from 5.0.3 (from forge v0.2.0) and newer
+
+# If you are upgrading from v0.0.1 or v0.1.0 extra step may be needed
+
+# "Note however that Redis Cluster 4.0 is not compatible with Redis Cluster 3.2 at cluster bus protocol level, so a mass restart is needed in this case. However Redis 5 cluster bus is backward compatible with Redis 4."
+
+# From https://github.com/redis/redis-doc/blob/950401c7e66cc2079121760395f1607e99f2b9a4/topics/admin.md
+
+NEW_REDIS_VERSION=$(chpst -u vcap:vcap redis-server --version | sed -e 's/.* v=\([^ ]*\).*/\1/')
+NEW_FULL_VERSION=$(chpst -u vcap:vcapredis-server --version)
+
+PREVIOUS_REDIS_VERSION=$(cat /var/vcap/store/standalone/REDIS_VERSION)
+PREVIOUS_FULL_VERSION=$(cat /var/vcap/store/standalone/REDIS_VERSION_FULL)
+
+echo "$(date) Migration from ${PREVIOUS_REDIS_VERSION} to ${NEW_REDIS_VERSION}" > /var/vcap/store/standalone/REDIS_MIGRATIONS.log
+chown vcap:vcap /var/vcap/store/standalone/REDIS_MIGRATIONS.log
+
+exit 0

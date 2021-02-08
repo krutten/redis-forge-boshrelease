@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Redis has an implicit builtin upgrade from 5.0.3 (from forge v0.2.0) and newer
+# Redis forge v0.0.1 and v0.1.0 run Redis 3.2.6
+
+exit 0
